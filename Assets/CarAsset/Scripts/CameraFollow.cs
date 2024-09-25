@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Car.Scripts
+namespace CarAsset.Scripts
 {
 	public class CameraFollow : MonoBehaviour {
 

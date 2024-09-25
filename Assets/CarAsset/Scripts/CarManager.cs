@@ -1,11 +1,20 @@
+/*
+MESSAGE FROM CREATOR: This script was coded by Mena. You can use it in your games either these are commercial or
+personal projects. You can even add or remove functions as you wish. However, you cannot sell copies of this
+script by itself, since it is originally distributed as a free product.
+I wish you the best for your project. Good luck!
+
+P.S: If you need more cars, you can check my other vehicle assets on the Unity Asset Store, perhaps you could find
+something useful for your game. Best regards, Mena.
+*/
+
 using System;
-using Car.Scripts.SoundSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Car.Scripts
+namespace CarAsset.Scripts
 {
-  public class PrometeoCarController : MonoBehaviour
+  public class CarManager : MonoBehaviour
   {
 
     //CAR SETUP
@@ -33,7 +42,7 @@ namespace Car.Scripts
     public int handbrakeDriftMultiplier = 5; // How much grip the car loses when the user hit the handbrake.
     [Space(10)]
     public Vector3 bodyMassCenter; // This is a vector that contains the center of mass of the car. I recommend to set this value
-    // in the points x = 0 and z = 0 of your car. You can select the value that you want in the y axis,
+    // in the points x = 0 and z = 0 of your car. You can seCClect the value that you want in the y axis,
     // however, you must notice that the higher this value is, the more unstable the car becomes.
     // Usually the y value goes from 0 to 1.5.
 
@@ -84,9 +93,17 @@ namespace Car.Scripts
     public bool useUI = false;
     public Text carSpeedText; // Used to store the UI object that is going to show the speed of the car.
 
-    [Header("Car Sound")] 
-    public CarSoundBase carSoundBase;
-  
+    //SOUNDS
+
+    [Space(20)]
+    //[Header("Sounds")]
+    [Space(10)]
+    //The following variable lets you to set up sounds for your car such as the car engine or tire screech sounds.
+    public bool useSounds = false;
+    public AudioSource carEngineSound; // This variable stores the sound of the car engine.
+    public AudioSource tireScreechSound; // This variable stores the sound of the tire screech (when the car is drifting).
+    float initialCarEngineSoundPitch; // Used to store the initial pitch of the car engine sound.
+
     //CONTROLS
 
     [Space(20)]
@@ -95,15 +112,15 @@ namespace Car.Scripts
     //The following variables lets you to set up touch controls for mobile devices.
     public bool useTouchControls = false;
     public GameObject throttleButton;
-    PrometeoTouchInput throttlePTI;
+    CarTouchInput throttlePTI;
     public GameObject reverseButton;
-    PrometeoTouchInput reversePTI;
+    CarTouchInput reversePTI;
     public GameObject turnRightButton;
-    PrometeoTouchInput turnRightPTI;
+    CarTouchInput turnRightPTI;
     public GameObject turnLeftButton;
-    PrometeoTouchInput turnLeftPTI;
+    CarTouchInput turnLeftPTI;
     public GameObject handbrakeButton;
-    PrometeoTouchInput handbrakePTI;
+    CarTouchInput handbrakePTI;
 
     //CAR DATA
 
@@ -183,8 +200,8 @@ namespace Car.Scripts
       RRwheelFriction.stiffness = rearRightCollider.sidewaysFriction.stiffness;
 
       // We save the initial pitch of the car engine sound.
-      if(carSoundBase.carEngineSound != null){
-        carSoundBase.initialCarEngineSoundPitch = carSoundBase.carEngineSound.pitch;
+      if(carEngineSound != null){
+        initialCarEngineSoundPitch = carEngineSound.pitch;
       }
 
       // We invoke 2 methods inside this script. CarSpeedUI() changes the text of the UI object that stores
@@ -198,7 +215,17 @@ namespace Car.Scripts
         }
       }
 
-      InvokeRepeating("CarSounds", 0f, 0.1f);
+      if(useSounds){
+        InvokeRepeating("CarSounds", 0f, 0.1f);
+      }else if(!useSounds){
+        if(carEngineSound != null){
+          carEngineSound.Stop();
+        }
+        if(tireScreechSound != null){
+          tireScreechSound.Stop();
+        }
+      }
+
       if(!useEffects){
         if(RLWParticleSystem != null){
           RLWParticleSystem.Stop();
@@ -219,11 +246,11 @@ namespace Car.Scripts
            turnRightButton != null && turnLeftButton != null
            && handbrakeButton != null){
 
-          throttlePTI = throttleButton.GetComponent<PrometeoTouchInput>();
-          reversePTI = reverseButton.GetComponent<PrometeoTouchInput>();
-          turnLeftPTI = turnLeftButton.GetComponent<PrometeoTouchInput>();
-          turnRightPTI = turnRightButton.GetComponent<PrometeoTouchInput>();
-          handbrakePTI = handbrakeButton.GetComponent<PrometeoTouchInput>();
+          throttlePTI = throttleButton.GetComponent<CarTouchInput>();
+          reversePTI = reverseButton.GetComponent<CarTouchInput>();
+          turnLeftPTI = turnLeftButton.GetComponent<CarTouchInput>();
+          turnRightPTI = turnRightButton.GetComponent<CarTouchInput>();
+          handbrakePTI = handbrakeButton.GetComponent<CarTouchInput>();
           touchControlsSetup = true;
 
         }else{
@@ -361,23 +388,34 @@ namespace Car.Scripts
     // This method controls the car sounds. For example, the car engine will sound slow when the car speed is low because the
     // pitch of the sound will be at its lowest point. On the other hand, it will sound fast when the car speed is high because
     // the pitch of the sound will be the sum of the initial pitch + the car speed divided by 100f.
-    // Apart from that, the carSoundBase.tireScreechSound will play whenever the car starts drifting or losing traction.
+    // Apart from that, the tireScreechSound will play whenever the car starts drifting or losing traction.
     public void CarSounds(){
+
+      if(useSounds){
         try{
-          if(carSoundBase.carEngineSound != null){
-            float engineSoundPitch = carSoundBase.initialCarEngineSoundPitch + (Mathf.Abs(carRigidbody.velocity.magnitude) / 25f);
-            carSoundBase.carEngineSound.pitch = engineSoundPitch;
+          if(carEngineSound != null){
+            float engineSoundPitch = initialCarEngineSoundPitch + (Mathf.Abs(carRigidbody.velocity.magnitude) / 25f);
+            carEngineSound.pitch = engineSoundPitch;
           }
           if((isDrifting) || (isTractionLocked && Mathf.Abs(carSpeed) > 12f)){
-            if(!carSoundBase.tireScreechSound.isPlaying){
-              carSoundBase.tireScreechSound.Play();
+            if(!tireScreechSound.isPlaying){
+              tireScreechSound.Play();
             }
           }else if((!isDrifting) && (!isTractionLocked || Mathf.Abs(carSpeed) < 12f)){
-            carSoundBase.tireScreechSound.Stop();
+            tireScreechSound.Stop();
           }
         }catch(Exception ex){
           Debug.LogWarning(ex);
         }
+      }else if(!useSounds){
+        if(carEngineSound != null && carEngineSound.isPlaying){
+          carEngineSound.Stop();
+        }
+        if(tireScreechSound != null && tireScreechSound.isPlaying){
+          tireScreechSound.Stop();
+        }
+      }
+
     }
 
     //

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Car.Scripts
+namespace CarAsset.Scripts
 {
-  public class PrometeoTouchInput : MonoBehaviour
+  public class CarTouchInput : MonoBehaviour
   {
 
     public bool changeScaleOnPressed = false;

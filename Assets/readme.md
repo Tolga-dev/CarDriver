@@ -2,6 +2,8 @@
 
 
 * Acik dunya oyunu
+  * import edilen araci ekle
+  * import edilen cevreyi yukle
   * achievement sistemi ile yeni sehirleri acabilirsini
   * gorevler yapabilirsiniz
   * UI

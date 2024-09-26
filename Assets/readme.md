@@ -2,14 +2,19 @@
 
 
 * Acik dunya oyunu
-  * achievement sistemi ile yeni sehirleri acabilirsini
+  * sehir eklemece
+  * yollar
+  * trafik isaretleri
+  * agaclar
+  * map boyama
+  * isiklar
   * daglar arasinda gidebilirsiniz
-  * yeni araclar kullanabilirsiniz
+  * achievement sistemi ile yeni sehirleri acabilirsini
   * gorevler yapabilirsiniz
-  * reklam olmucak - sadece oyun ici satin alim
-    * yeni maplar 
-    * yeni mevsimler
-  * playfab ile player datasi tutulacak
+  * UI
+  * inputlar
+  * oyun içi ses
+  * efektler
 
 
 

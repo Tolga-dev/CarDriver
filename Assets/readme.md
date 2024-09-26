@@ -2,26 +2,12 @@
 
 
 * Acik dunya oyunu
-  * sehir eklemece
-  * yollar
-  * trafik isaretleri
-  * agaclar
-  * map boyama
-  * isiklar
-  * daglar arasinda gidebilirsiniz
   * achievement sistemi ile yeni sehirleri acabilirsini
   * gorevler yapabilirsiniz
   * UI
   * inputlar
   * oyun içi ses
   * efektler
-
-
-
-
-
-
-
 
 
 

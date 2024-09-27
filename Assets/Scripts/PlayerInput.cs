@@ -66,28 +66,26 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (Application.isEditor)
-        {
-            // Editor Inputs (Keyboard)
-            turn = Input.GetAxis("Horizontal");
-            accel = Input.GetAxis("Vertical");
-            handBrake = Input.GetKey(KeyCode.Space) ? 1 : 0;
-        }
-        else
-        {
-            // Mobile Inputs (UI)
-            turn = steel.Horizontal;
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        // Windows Inputs (Keyboard)
+        turn = Input.GetAxis("Horizontal");
+        accel = Input.GetAxis("Vertical");
+        handBrake = Input.GetKey(KeyCode.Space) ? 1 : 0;
 
-            // Adjust accel based on button press status
-            accel = 0;
-            if (gasPressed)
-                accel = 1;
-            else if (reversePressed)
-                accel = -1;
+#elif UNITY_ANDROID
+    // Android Inputs (UI)
+    turn = steel.Horizontal;
 
-            // Adjust handBrake based on brake button status
-            handBrake = brakePressed ? 1 : 0;
-        }
+    // Adjust accel based on button press status
+    accel = 0;
+    if (gasPressed)
+        accel = 1;
+    else if (reversePressed)
+        accel = -1;
+
+    // Adjust handBrake based on brake button status
+    handBrake = brakePressed ? 1 : 0;
+#endif
     }
 
     private void FixedUpdate()

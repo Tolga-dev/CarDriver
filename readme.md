@@ -10,6 +10,10 @@ Car Drive Game is an open-world car driving simulation set on a large, handcraft
 - **Speed Effect and Sound Integration**: Dynamic scaling effects and engine sounds that adapt to the car's speed.
 - **Light and Reflection**: Realistic lighting effects using Unity’s LightProbeHelper for enhanced reflections.
 
+## PreGame examples
+<img src="./GithubAssets/2.png" alt="Description of Image 1" width="500" height="500">
+<img src="./GithubAssets/1.png" alt="Description of Image 1" width="500" height="500">
+
 ## Assets
 ### Directory Overview
 - `2D Casual UI` - Collection of UI elements for game menus and interactions.
@@ -32,9 +36,12 @@ Car Drive Game is an open-world car driving simulation set on a large, handcraft
   - [Switch Icon](https://www.flaticon.com/free-icons/switch) - Created by Gregor Cresnar on Flaticon.
 
 ## Installation
-1. Clone the repository or download it as a ZIP.
-2. Open the project with Unity.
-3. Import necessary packages from the `OutAssets` directory.
+* Method 1
+  * https://github.com/Tolga-dev/CarDriver/releases/tag/Init download from releases
+* Method 2
+  1. Clone the repository or download it as a ZIP.
+  2. Open the project with Unity.
+  3. Import necessary packages from the `OutAssets` directory.
 
 ## How to Play
 - Use **WASD** or **Arrow Keys** for car movement (PC).

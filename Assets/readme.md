@@ -2,12 +2,13 @@
 
 
 * Acik dunya oyunu
-  * import edilen araci ekle
-  * import edilen cevreyi yukle
-  * achievement sistemi ile yeni sehirleri acabilirsini
-  * gorevler yapabilirsiniz
+  * import edilen araci ekle - ok
+  * import edilen cevreyi yukle - ok
   * UI
+  * arac ters takla muhabbeti
   * inputlar
+  * achievement sistemi ile yeni sehirleri acabilirsini 
+  * gorevler yapabilirsiniz
   * oyun içi ses
   * efektler
 

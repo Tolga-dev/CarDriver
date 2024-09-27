@@ -3,13 +3,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerInput : MonoBehaviour
 {
     [Header("Globals")]
     private CarController _carController;
-    private ResetCar _resetCar;
 
+    [Header("Audios")] 
+    public List<AudioSource> wheelAudios = new List<AudioSource>();
+    public AudioSource engineAudioSource;
+    
     [Header("Input Values")]
     public float accel;
     public float handBrake;
@@ -26,7 +30,15 @@ public class PlayerInput : MonoBehaviour
 
     [Header("Game UI Elements")]
     public Button openMenu;
+    public GameObject openMenuPanel;
+    
+    public Button reloadScene;
+    public string currentGameNameScene;
+    
     public Button replaceLocationToClosestPlace;
+    
+    public Slider wheelSoundSlider;
+    public Slider engineSoundSlider;
     
     [Header("Roads")]
     public List<Transform> roads = new List<Transform>();
@@ -41,7 +53,6 @@ public class PlayerInput : MonoBehaviour
     private void Awake()
     {
         _carController = GetComponent<CarController>();
-        _resetCar = GetComponent<ResetCar>();
 
         // Assign button event listeners
         AddButtonListeners();
@@ -77,19 +88,6 @@ public class PlayerInput : MonoBehaviour
             // Adjust handBrake based on brake button status
             handBrake = brakePressed ? 1 : 0;
         }
-        
-        /*// Mobile Inputs (UI)
-        turn = steel.Horizontal;
-
-        // Adjust accel based on button press status
-        accel = 0;
-        if (gasPressed)
-            accel = 1;
-        else if (reversePressed)
-            accel = -1;
-
-        // Adjust handBrake based on brake button status
-        handBrake = brakePressed ? 1 : 0;*/
     }
 
     private void FixedUpdate()
@@ -110,6 +108,26 @@ public class PlayerInput : MonoBehaviour
         AddEventTriggerListener(brakeCar.gameObject, EventTriggerType.PointerUp, (eventData) => { OnBrakeReleased(); });
         
         replaceLocationToClosestPlace.onClick.AddListener(PutCarToClosestPlace);
+        openMenu.onClick.AddListener(() =>
+        {
+            openMenuPanel.gameObject.SetActive(true);
+
+            wheelSoundSlider.minValue = 0;
+            wheelSoundSlider.maxValue = 1;
+            wheelSoundSlider.value = wheelAudios[0].volume;
+            
+            engineAudioSource = gameObject.GetComponent<AudioSource>();
+            
+            engineSoundSlider.minValue = 0;
+            engineSoundSlider.maxValue = 1;
+            engineSoundSlider.value = engineAudioSource.volume;
+            
+        });
+        reloadScene.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(currentGameNameScene);
+        });
+        
     }
 
     private void PutCarToClosestPlace()
@@ -177,5 +195,17 @@ public class PlayerInput : MonoBehaviour
     private void OnBrakeReleased()
     {
         brakePressed = false;
+    }
+
+    public void ChangeWheelSound()
+    {
+        foreach (var audioSource in wheelAudios)
+        {
+            audioSource.volume = wheelSoundSlider.value;
+        }
+    }
+    public void ChangeEngineSound()
+    {
+        engineAudioSource.volume = engineSoundSlider.value;
     }
 }

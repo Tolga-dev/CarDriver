@@ -43,6 +43,9 @@ Car Drive Game is an open-world car driving simulation set on a large, handcraft
   2. Open the project with Unity.
   3. Import necessary packages from the `OutAssets` directory.
 
+## Play in itchio
+* https://tolga-dev.itch.io/car-driver
+
 ## How to Play
 - Use **WASD** or **Arrow Keys** for car movement (PC).
 - **Gas, Brake, Reverse** buttons available for mobile controls.

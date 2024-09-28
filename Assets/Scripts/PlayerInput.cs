@@ -66,13 +66,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-        // Windows Inputs (Keyboard)
-        turn = Input.GetAxis("Horizontal");
-        accel = Input.GetAxis("Vertical");
-        handBrake = Input.GetKey(KeyCode.Space) ? 1 : 0;
-
-#elif UNITY_ANDROID
+#if UNITY_ANDROID
     // Android Inputs (UI)
     turn = steel.Horizontal;
 
@@ -85,6 +79,10 @@ public class PlayerInput : MonoBehaviour
 
     // Adjust handBrake based on brake button status
     handBrake = brakePressed ? 1 : 0;
+#else
+        turn = Input.GetAxis("Horizontal");
+        accel = Input.GetAxis("Vertical");
+        handBrake = Input.GetKey(KeyCode.Space) ? 1 : 0;
 #endif
     }
 
